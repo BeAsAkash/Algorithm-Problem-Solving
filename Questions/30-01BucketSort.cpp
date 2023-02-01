@@ -4,29 +4,35 @@
 #include<ctime>
 #include<cstdlib>
 using namespace std;
-
-void bucketSort(float arr[], int n)
-{
-	
-
-	vector<float> b[n];
-
-	
-	for (int i = 0; i < n; i++) {
-		int bi = n * arr[i]; 
-		b[bi].push_back(arr[i]);
-	}
-
-	
-	for (int i = 0; i < n; i++)
-		sort(b[i].begin(), b[i].end());
-
-
-	int index = 0;
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < b[i].size(); j++)
-			arr[index++] = b[i][j];
-}
+int getMax(int a[], int n) 
+{  
+  int max = a[0];  
+  for (int i = 1; i < n; i++)  
+    if (a[i] > max)  
+      max = a[i];  
+  return max;  
+}  
+void bucket(int a[], int n)  
+{  
+  int max = getMax(a, n); 
+  int bucket[max], i;  
+  for (int i = 0; i <= max; i++)  
+  {  
+    bucket[i] = 0;  
+  }  
+  for (int i = 0; i < n; i++)  
+  {  
+    bucket[a[i]]++;  
+  }  
+  for (int i = 0, j = 0; i <= max; i++)  
+  {  
+    while (bucket[i] > 0)  
+    {  
+      a[j++] = i;  
+      bucket[i]--;  
+    }  
+  }  
+}  
 
 int main()
 {
@@ -39,16 +45,15 @@ int main()
         cout << "Enter the no of INPUTS : ";
         cin >> n;
 
-        float arr[n];
+        int a[n];
 
         for (int i = 0; i < n; i++)
         {
-            arr[i] = rand();
+            a[i] = rand();
         }
 
         clock_t start_time = clock();
-
-        bucketSort(arr, (sizeof(arr) / 4));
+        bucket(a,n);
 
         clock_t end_time = clock();
 
